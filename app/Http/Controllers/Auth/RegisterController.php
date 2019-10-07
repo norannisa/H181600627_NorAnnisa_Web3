@@ -52,7 +52,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'captcha' => 'required|captcha'
+            'kontak' => ['required', 'string', 'min:8', 'unique:users'],
+            'captcha' => ['required', 'captcha'],
         ]);
     }
 
@@ -67,7 +68,9 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'kontak' => $data['kontak'],
             'password' => Hash::make($data['password']),
+            
         ]);
     }
 }

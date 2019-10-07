@@ -38,14 +38,21 @@
                                 @enderror
                             </div>
                         </div>
-
+                        
                         <div class="form-group row">
-                            <label for="contact" class="col-md-4 col-form-label text-md-right">{{ __('contact') }}</label>
+                            <label for="kontak" class="col-md-4 col-form-label text-md-right">{{ __('Kontak') }}</label>
 
                             <div class="col-md-6">
-                                <input id="contact" type="number" class="form-control @error('contact') is-invalid @enderror" name="contact" value="{{ old('contact') }}" required autocomplete="contact">
+                                <input id="kontak" type="text" class="form-control @error('kontak') is-invalid @enderror" name="kontak" value="{{ old('kontak') }}" required autocomplete="kontak">
+
+                                @error('kontak')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
+
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -68,18 +75,22 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                        
 
                         <div class="form-group row">
-                            <label for="captcha" class="col-md-4 col-form-label text-md-right">{{ __('captcha') }}</label>
+                            <label for="captcha" class="col-md-4 col-form-label text-md-right">{{ __('Captcha') }}</label>
 
                             <div class="col-md-6">
+                                <input id="captcha" type="captcha" class="form-control mt-2 @error('captcha') is-invalid @enderror" name="captcha" required placeholder="Enter Capctha">
                                 <div class="captcha">
-                                    <span>{!! captcha_img() !!}</span>
-                                    <button type="button" class="btn btn-success btn-refresh">Refresh</button>
-                                </div>
+                                <div class ="hasil_refereshrecapcha">
+                                     {!!captcha_img('flat');!!}
+                            </div>
                             
-                                <input id="captcha" type="text" class="form-control mt-2 @error('captcha') is-invalid @enderror" name="captcha" placeholder="Enter captcha">
-
+                               <br>
+                               <a href="javascript:void(0)" onclick="refreshCaptcha()">Refresh</a>
+                               
+                             </div>
 
                                 @error('captcha')
                                     <span class="invalid-feedback" role="alert">
@@ -103,3 +114,23 @@
     </div>
 </div>
 @endsection
+
+@section('scripts')
+
+<script>
+function refreshCaptcha(){
+$.ajax({
+url: "/refereshcapcha",
+type: 'get',
+  dataType: 'html',        
+  success: function(json) {
+    $('.hasil_refereshrecapcha').html(json);
+  },
+  error: function(data) {
+    alert('Try Again.');
+  }
+});
+}
+</script>
+
+@endsection 
